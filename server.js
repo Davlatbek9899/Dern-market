@@ -3,37 +3,35 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 
+// .env faylni o'qish
 dotenv.config();
+
+// Express app
 const app = express();
 
-const authRoutes = require("./routes/auth");
-
+// Middleware
 app.use(cors());
 app.use(express.json());
 
+// Routes
+const authRoutes = require("./routes/auth");
 app.use("/api/auth", authRoutes);
+
+// Asosiy test route
+app.get("/", (req, res) => {
+    res.send("Backend ishlayapti ✅");
+});
+
+// MongoDB ulanish va serverni ishga tushirish
+const PORT = process.env.PORT || 5000;
 
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
-    console.log("MongoDB ulandi");
-    app.listen(5000, () => {
-        console.log("Server http://localhost:5000 da ishlayapti");
+    console.log("✅ MongoDB ulandi");
+    app.listen(PORT, () => {
+        console.log(`✅ Server http://localhost:${PORT} da ishlayapti`);
     });
     })
-    .catch(err => console.error("MongoDB ulanishda xatolik:", err));
-
-
-    const express = require("express");
-const cors = require("cors");
-
-// CORSni faollashtirish
-app.use(cors());
-
-// JSON formatda yuborilgan ma’lumotlarni o‘qish
-app.use(express.json());
-
-// ... boshqa route'laringiz
-
-app.listen(process.env.PORT || 3000, () => {
-    console.log("Server ishga tushdi...");
-});
+    .catch(err => {
+    console.error("❌ MongoDB ulanishda xatolik:", err);
+    });
