@@ -21,3 +21,19 @@ mongoose.connect(process.env.MONGO_URI)
     });
     })
     .catch(err => console.error("MongoDB ulanishda xatolik:", err));
+
+
+    const express = require("express");
+const cors = require("cors");
+
+// CORSni faollashtirish
+app.use(cors());
+
+// JSON formatda yuborilgan ma’lumotlarni o‘qish
+app.use(express.json());
+
+// ... boshqa route'laringiz
+
+app.listen(process.env.PORT || 3000, () => {
+    console.log("Server ishga tushdi...");
+});
